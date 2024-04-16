@@ -35,7 +35,8 @@
     <form id="calculate">
         
         <label for="wquanity" >Quanity:</label>
-        <input type="number" id="wquanity" name="wquanity" min="0" value="0" >
+        <input type="number" id="wquanity" name="wquanity" min="0" max="7" value="0" >
+        <span id="wquantityError" style="color: red;"></span>
     
     <hr>
     <p>Chicken sandwhich $4</p>
@@ -44,7 +45,8 @@
     </figure>
     
         <label for="squanity">Quanity:</label>
-        <input type="number" id="squanity" name="squanity" min="0" value="0" >
+        <input type="number" id="squanity" name="squanity" min="0" max="7" value="0" >
+        <span id="squantityError" style="color: red;"></span>
     
     <hr>
     
@@ -54,7 +56,8 @@
     </figure>
     
         <label for="pquanity" >Quanity:</label>
-        <input type="number" id="pquanity" name="pquanity" min="0" value="0" >
+        <input type="number" id="pquanity" name="pquanity" min="0" max="7" value="0" >
+        <span id="pquantityError" style="color: red;"></span>
 
         <button type="button" onclick="calcfinal()">Calculate Total</button>
     </form>
@@ -66,6 +69,8 @@
             
            
     </div>
+
+    <div id="errormessage"></div>
    
 
     <footer>
@@ -76,18 +81,62 @@
      <script>
 
         function calcfinal() {
+            
+            document.getElementById("wquantityError").textContent = "";
+            document.getElementById("squantityError").textContent = "";
+            document.getElementById("pquantityError").textContent = "";
+            document.getElementById("errormessage").textContent = "";
             // get values from the input fields
             const totalwaffles=parseFloat(document.getElementById("wquanity").value);
             const totalsandwhich=parseFloat(document.getElementById("squanity").value);
             const totalpasta=parseFloat(document.getElementById("pquanity").value);
+            // will help to stop the total from calculating if there's errors
+            let isError=false;
 
-            // calculate the total
+           //verify values are numbers and that they are between 1-7
+             if(isNaN(totalwaffles) || totalwaffles < 0 || totalwaffles > 7) {
+                document.getElementById('wquantityError').textContent='please enter a quantity between 1 to 7';
+                alert('please enter a valid quantity for waffles between 1 to 7');
+                isError=true;
+                
+                
+             }
+
+
+             if(isNaN(totalsandwhich) || totalsandwhich < 0 || totalsandwhich > 7) {
+                    document.getElementById('squantityError').textContent='please enter a quantity between 1 to 7';
+                    alert('please enter a valid quantity for sandwhich between 1 to 7');
+                    isError=true;
+                    
+                }
+                
+                
+             if( isNaN(totalpasta) || totalpasta < 0 || totalpasta > 7) {
+                    document.getElementById('pquantityError').textContent='please enter a quantity between 1 to 7';
+                    alert('please enter a valid quantity for pasta between 1 to 7');
+                    isError=true;
+                    
+                }
+
+
+            if(!isError){
+                 // calculate the total
             const total= (totalwaffles* 3) + (totalsandwhich* 4) +(totalpasta* 6);
 
-            // display total
+                // display total
             document.getElementById("totalq").textContent = "Your Total: $" + total.toFixed(2);
 
 
+            } else {
+        //  This Clear's total if there are errors
+        document.getElementById("totalq").textContent = "Your Total: $0.00";
+    }
+                    
+                    
+           
+           
+           
+          
         }
      </script>
    
